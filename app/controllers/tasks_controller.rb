@@ -44,16 +44,10 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
 
     if @task.update_attributes(params[:task])
-      flash[:success] = "You updated a new task"
+      flash[:success] = "You updated task #{@task.id}"
     end
 
     respond_with @task
-  end
-
-  def destroy
-    article = Article.destroy(params[:id])
-      redirect_to articles_path, :notice => "Article '#{article.title}' was deleted."
-
   end
 
   # DELETE /tasks/1
