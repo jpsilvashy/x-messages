@@ -25,7 +25,7 @@ var get_x_messages = function(response) {
   var x_messages_header = response.getResponseHeader('X-Messages');
 
   // if there is an object, parse the JSON
-  if (x_messages_header) {
+  if ((typeof x_messages_header !== "undefined") && (x_messages_header !== null)) {
     return $.parseJSON(x_messages_header)
   }
 }
