@@ -1,14 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>XMessages</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>X-Messages</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+  <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+  <![endif]-->
 
+  <header class='clearfix'>
+    <nav>
+      <ul id='site-nav'>
+        <li><a href="#">Lorem</a></li>
+        <li><a href="#">Ipsum</a></li>
+        <li><a href="#">Dolor</a></li>
+        <li><a href="#">Sit</a></li>
+        <li><a href="#">Amet</a></li>
+      </ul>
+
+      <ul id='user-nav'>
+        <li><a href="#">Lorem</a></li>
+        <li><a href="#">Ipsum</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class='clearfix'>
+
+    <%= render_x_messages %>
+
+    <%= yield %>
+  </section>
+
+  <footer>
+    <p>Made by <a href="http://jpsilvashy.com">Joseph Silvashy</a> in San Francisco.</p>
+  </footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.0.min.js"><\/script>')</script>
+
+  <% if x_messages %>
+  <script>
+    var x_messages = <%= x_messages.to_json.html_safe %>
+  </script>
+  <% end %>
+
+  <%= javascript_include_tag "application" %>
+
+  <!-- Google Analytics update UA-XXXXX-X to match your site ID -->
+  <script>
+  var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
 </body>
 </html>

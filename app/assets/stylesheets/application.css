@@ -1,13 +1,90 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require_self
- *= require_tree .
- */
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+* or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the top of the
+* compiled file, but it's generally better to create a new file per style scope.
+*
+*= require newton/normalize
+*= require newton/base
+*= require newton/tables
+*= require newton/forms
+*= require newton/buttons
+
+*= require alertify/alertify.core
+*= require alertify/alertify.default
+
+*/
+
+/* fix alertify css */
+section.alertify-logs {
+  background: none;
+  border-radius: 0;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* some styles for the messages displyed in the page */
+/* only users without js would see these */
+.x-messages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.x-messages.hidden {
+  display: none;
+}
+
+
+
+h2 {
+  margin-top: 0;
+}
+
+body {
+  background: #f0f0f0;
+}
+
+header, footer {
+  margin: 20px 40px;
+  padding: 0px;
+}
+
+section {
+  background: white;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  border-bottom-color: #b8b8b8;
+
+  margin: 20px 40px;
+  padding: 40px;
+}
+
+/* header */
+header {
+  padding:0;
+}
+
+header nav ul {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+#site-nav {
+  float: left;
+}
+
+#user-nav {
+  float: right;
+}

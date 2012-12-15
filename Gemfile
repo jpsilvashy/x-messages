@@ -3,6 +3,8 @@ ruby '1.9.3'
 
 gem 'rails', '3.2.9'
 
+gem 'simple_form'
+
 group :development do
   gem 'sqlite3'
 end

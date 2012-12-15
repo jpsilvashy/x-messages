@@ -1,0 +1,13 @@
+<h2>Listing tasks</h2>
+
+<% @tasks.each do |task| %>
+<li>
+  <%= task.body %>
+  <%= link_to 'Edit', edit_task_path(task) %>
+  <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?', remote: true } %>
+</li>
+<% end %>
+
+<br />
+
+<%= link_to 'New Task', new_task_path, :class => 'btn' %>
