@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://stackoverflow.com/questions/ask -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Delay (debounce) ajax request with coffeescript - Stack Overflow</title>
+    <link rel="shortcut icon" href="http://cdn.sstatic.net/stackoverflow/img/favicon.ico">
+    <link rel="apple-touch-icon" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="http://stackoverflow.com/opensearch.xml">
+
+    
+    <script type="text/javascript" async="" src="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/ga.js"></script><script type="text/javascript" async="" src="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/quant.js"></script><script type="text/javascript" src="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/jquery.min.js"></script>
+    <script type="text/javascript" src="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/stub.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/all.css">
+    
+    <script type="text/javascript">
+        StackExchange.ready(
+            function () {
+                StackExchange.question.initTitleSearch($('#title'), $("#question-suggestions"), 'Stack Overflow');
+
+                    
+                    var $answerCheckbox = $('#answer-from-ask');
+                    var editorInitialized = false;
+
+                    function showAnswerSection(quick, callback) {
+                        if (!editorInitialized) {
+                            $("#question-answer-section").css("opacity", 0).removeClass("dno");
+                            StackExchange.editor.finallyInit();
+                            editorInitialized = true;
+                        }
+                        
+                        $('#question-answer-section, #answer-from-ask-form-item').fadeTo(quick ? 0 : 400, 1, callback);
+                    }
+
+                    $answerCheckbox.change(function () {
+                        if ($(this).is(':checked')) {
+                            $('#question-only-section, #answer-from-ask-form-item').fadeOut(function () {
+                                showAnswerSection(false, function () {
+                                    $('#wmd-input-42').focus();
+                                });
+                            });
+                        }
+                        else {
+                            $('#question-answer-section, #answer-from-ask-form-item').fadeOut(function () {
+                                $('#question-only-section, #answer-from-ask-form-item').fadeIn();
+                            });
+                        }
+                    });
+
+                    if ($answerCheckbox.is(':checked') || 0 > 0) {
+                        $answerCheckbox.attr('checked', true);
+                        $('#question-only-section').hide();
+                        StackExchange.using("editor", function () {
+                            setTimeout(function () { showAnswerSection(true) }, 2);
+                        });
+                    }
+                    
+            }
+        );
+    </script>
+
+
+
+        <script type="text/javascript">
+             StackExchange.ready(function () {
+                 StackExchange.realtime.init('ws://sockets-se.or.stackexchange.com');
+                StackExchange.realtime.subscribeToInboxNotifications();
+                                 StackExchange.realtime.subscribeToReputationNotifications('1');            
+                         });
+        </script>
+    <script type="text/javascript">
+        StackExchange.init({"stackAuthUrl":"https://stackauth.com","serverTime":1356154480,"styleCode":true,"enableUserHovercards":true,"site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdchgIAAAAAAJwGpIzRQSOFaO0pU6s44Xt8aTwc","enableSocialMediaInSharePopup":true},"user":{"fkey":"4cc0abe1a14ee95c086db8bce95f1dc3","isRegistered":true,"userId":103739,"accountId":36377,"gravatar":"<div class=\"\"><img src=\"http://www.gravatar.com/avatar/8b9a49794c6428a895ad1250bca68b59?s=32&amp;d=identicon&amp;r=PG\" alt=\"\" width=\"32\" height=\"32\"></div>","profileUrl":"http://stackoverflow.com/users/103739/joseph-silvashy","notificationsUnviewedCount":43,"inboxUnviewedCount":30}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.js":"c862bf93b3ec","js/moderator.js":"37bba549a03e","js/full-anon.js":"290aac283833","js/full.js":"673e531e239e","js/wmd.js":"0360a509b7c2","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/mobile.js":"6eb68240242f","js/help.js":"fc9fb0517db2","js/tageditor.js":"450c9e8426fc","js/tageditornew.js":"9ac6c13a3a7f","js/inline-tag-editing.js":"30f72b99548b","js/revisions.js":"8c6bcd93b7fe","js/review.js":"3a8e6a0a0dc8"});
+        
+    </script>
+
+
+    <script type="text/javascript">
+        StackExchange.using(
+            "gps",
+            function () {
+                StackExchange.gps.init(false);
+            }
+        );
+    </script>
+<script async="" type="text/javascript" src="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/full.js"></script><script async="" type="text/javascript" src="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/tageditornew.js"></script><script async="" type="text/javascript" src="./Delay (debounce) ajax request with coffeescript - Stack Overflow_files/wmd.js"></script></head>
+<body class="ask-page">
+    <noscript>&lt;div id="noscript-padding"&gt;&lt;/div&gt;</noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+
+    <div class="container">
+        <div id="header">
+            <div id="portalLink">
+                <a class="genu" onclick="StackExchange.ready(function(){genuwine.click();});return false;">Stack Exchange</a>
+                    <a class="unreadCount" style="margin-top: 3px; opacity: 1;" title="unread messages in your inbox">30</a>
+                        <script type="text/javascript">
+                             StackExchange.ready(function () {
+                                 genuwine.animateInbox();
+                             });
+                        </script>
+            </div><div class="winter-bash" style="float: left; background-image: url(http://cdn.prom.sstatic.net/WinterBash/img/topbar-icon-others.png); margin-top: 6px; background-position: -2px -2px; background-repeat: no-repeat no-repeat;"><a href="http://stackoverflow.com/questions/ask#" class="wb-link" style="display: block; float: left; width: 120px; height: 18px;"></a><a href="http://stackoverflow.com/questions/ask#" class="unreadCount wb-unread-count" style="display: none; color: white; background-color: #2262A0;"></a></div>
+            <div id="topbar" style="margin-left: 0px; padding-left: 0px;">
+                <div id="hlinks">
+                    
+
+
+
+
+
+
+
+
+
+<span id="hlinks-user">
+        <span class="profile-triangle">▾</span><a href="http://stackoverflow.com/users/103739/joseph-silvashy" class="profile-link">Joseph Silvashy</a>&nbsp;<a href="http://stackoverflow.com/users/103739/joseph-silvashy?tab=reputation"><span class="reputation-score" title="your reputation; view reputation changes" dir="ltr">6,681</span></a><span title="6 gold badges"><span class="badge1"></span><span class="badgecount">6</span></span><span title="33 silver badges"><span class="badge2"></span><span class="badgecount">33</span></span><span title="93 bronze badges"><span class="badge3"></span><span class="badgecount">93</span></span>
+ <span class="lsep">|</span>
+
+
+</span>
+<span id="hlinks-nav">
+                        <a href="http://stackoverflow.com/review/">review</a>
+
+ <span class="lsep">|</span>
+
+</span>
+<span id="hlinks-custom">
+        <a href="http://chat.stackoverflow.com/">chat</a>
+
+ <span class="lsep">|</span>
+            <a href="http://meta.stackoverflow.com/">meta</a>
+
+ <span class="lsep">|</span>
+    <a href="http://stackoverflow.com/faq">faq</a>
+
+</span>
+                </div>
+                <div id="hsearch">
+                    <form id="search" action="http://stackoverflow.com/search" method="get" autocomplete="off">
+                    <div>
+                        <input autocomplete="off" name="q" class="textbox" placeholder="search" tabindex="1" type="text" maxlength="140" size="28" value="">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="http://stackoverflow.com/">Stack Overflow</a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs">
+                    <ul>
+                        <li><a id="nav-questions" href="http://stackoverflow.com/questions">Questions</a></li>
+                        <li><a id="nav-tags" href="http://stackoverflow.com/tags">Tags</a></li>
+                        <li><a id="nav-users" href="http://stackoverflow.com/users">Users</a></li>
+                        <li><a id="nav-badges" href="http://stackoverflow.com/badges">Badges</a></li>
+                        <li><a id="nav-unanswered" href="http://stackoverflow.com/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li class="youarehere">
+                            <a id="nav-askquestion" style="cursor:default">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-content"><script>
+StackExchange.ready(function () {
+    $.ajax({
+        url: "http://cdn.prom.sstatic.net/WinterBash/js/core.js?v=3",
+        dataType: "script",
+        cache: true
+    }).done(function () {
+        WinterBash.core.init('winterba.sh', 'http://cdn.prom.sstatic.net/WinterBash/');
+    });
+});
+</script></div>
+
+
+
+        <div id="content">
+            
+
+
+<div id="mainbar" class="ask-mainbar">
+
+    <form id="post-form" class="post-form" action="http://stackoverflow.com/questions/ask/submit" method="post">
+        <div class="form-item ask-title">
+            <table class="ask-title-table">
+                <tbody><tr>
+                    <td class="ask-title-cell-key">
+                        <label for="title">Title</label>
+                    </td>
+                    <td class="ask-title-cell-value">
+                        <input type="text" maxlength="300" tabindex="100" class="actual-edit-overlay" autocomplete="off" style="opacity: 1; position: absolute; background-color: white; color: black; -webkit-text-fill-color: black; width: 610px; height: 15px; line-height: normal; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 13px; text-align: start; border: 1px solid rgb(153, 153, 153);" disabled="disabled"><input id="title" name="title" type="text" maxlength="300" tabindex="100" class="ask-title-field" autocomplete="off" style="opacity: 1; z-index: 1; position: relative;">                        
+                        <span class="edit-field-overlay">what's your programming question? be specific.</span>
+                    </td>
+                </tr>
+            </tbody></table>
+            <div id="question-suggestions"><label>Questions that may already have your answer</label><div class="title-search-container">
+
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/5030238/103739" title="1 votes">
+        <div class="answer-votes        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/5030238/delay-ajax-request" class="question-hyperlink" title="What is the best way to set timeout that will force my page not to set more than one ajax request per minute
+
+Thanks in advance!
+" target="_blank">delay ajax request</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/9162868/103739" title="0 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">0</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/9162868/return-results-of-ajax-request-in-coffeescript" class="question-hyperlink" title="Still getting my head around CoffeeScript and and seeing what its capable of.
+
+I&#39;ve written a method that makes a ajax call and I&#39;m wanting to return the results.
+
+For example:
+
+GetViewedItem: (foo) ..." target="_blank">Return Results of Ajax Request in Coffeescript</a>
+            <span title="2 answers">2</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/3358460/103739" title="1 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/3358460/jquery-how-to-add-a-delay-to-an-ajax-request" class="question-hyperlink" title="i have a function which returns a certain ammount of data triggered in AJAX when typping. 
+
+But, as soon as i type &quot;long&quot; string like &quot;hello my name is&quot;, it launches a single request each time i type ..." target="_blank">jQuery : how to add a delay to an ajax request?</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/6992298/103739" title="1 votes">
+        <div class="answer-votes        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/6992298/how-should-i-delay-the-ajax-request" class="question-hyperlink" title="like this jquery code, how should i delay the ajax request? input is a text field...over my head ....thx for help...
+
+var proname = &quot;&quot; ;
+$(&quot;input[name=&#39;proname&#39;]&quot;).keyup(function(e){
+    //how should ..." target="_blank">how should i delay the ajax request?</a>
+            <span title="4 answers">4</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/11308404/103739" title="2 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">2</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/11308404/trying-to-add-delay-to-jquery-ajax-request" class="question-hyperlink" title="I am trying to delay an AJAX request so that it is sent out 2-3 seconds after the LAST keyup of an input cell.
+So far I have managed to delay the requests, but after 2-3 seconds I get one request sent ..." target="_blank">Trying to add delay to jQuery AJAX request</a>
+            <span title="3 answers">3</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/4995806/103739" title="1 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/4995806/delay-ajax-request-by-x-seconds-and-update-only-the-last-clicked-request" class="question-hyperlink" title="Hi all
+I am delaying a AJAX request by 3 seconds and then updating a div with the response. But the problem what I face is, when the user clicks on all the three links simultaneously, the requested ..." target="_blank">Delay ajax request by x seconds and update only the last clicked request</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/4667761/103739" title="0 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">0</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/4667761/huge-delay-on-second-jquery-ajax-request" class="question-hyperlink" title="I try to do some simple Ajax call with refresh of page content with this code snippet:
+
+$(&quot;a.ajaxify-watched&quot;).bind(&quot;click&quot;, function(event) {
+
+    $item = $(this);
+
+    $.ajax({
+        url: ..." target="_blank">Huge Delay on second jQuery Ajax Request</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/6637454/103739" title="0 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">0</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/6637454/delay-before-sending-ajax-request-does-not-work" class="question-hyperlink" title="When I do hover over &lt;td&gt; it does wait 900 milliseconds and then sends a lot of requests (I always hover over more tds in these 900ms). What am I doing wrong? why only clearTimeout  (commented)  ..." target="_blank">Delay before sending ajax request does not work</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/10832237/103739" title="0 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">0</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/10832237/keyupfunction-ajax-request-delay-jquery" class="question-hyperlink" title="I have a jQuery Ajax request, that I want to call with text input, and so I nested it inside keyup(function(). This works fine.
+
+$(&quot;#text_box&quot;).keyup(function() {
+ //AJAX REQUEST
+});
+
+
+But this ..." target="_blank">keyup(function()) ajax request delay - jQuery</a>
+            <span title="2 answers">2</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/11395424/103739" title="0 votes">
+        <div class="answer-votes        default
+">0</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/11395424/infinite-scroll-how-to-delay-the-ajax-request" class="question-hyperlink" title="I have a pretty simple script that works fine. However, i want to delay the appending of new results for 3 seconds, to avoid over-loading the server. So, when you reach the end of the page, a loading ..." target="_blank">infinite scroll - how to delay the ajax request?</a>
+            <span title="3 answers">3</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/3972911/103739" title="2 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">2</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/3972911/add-delay-before-sending-new-ajax-request-using-jquery" class="question-hyperlink" title="I have a list of links wich point to html pages.
+
+&lt;ul id=&quot;item-list&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;assets/data/item1.html&quot;&gt;Item 1&lt;/a&gt;&lt;/li&gt; 
+    &lt;li&gt;&lt;a ..." target="_blank">Add delay before sending new ajax request using jquery</a>
+            <span title="3 answers">3</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/2960302/103739" title="2 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">2</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/2960302/jquery-ajax-no-further-request-after-timeout-and-delay-in-form-post" class="question-hyperlink" title="I got a form containing multiple checkboxes. This form shall be sent to the server to receive appropriate results from a server side script.
+
+This is already working.
+
+What I would achieve now:
+
+1) ..." target="_blank">JQuery-AJAX: No further request after timeout and delay in form post</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/13210765/103739" title="1 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/13210765/coffeescript-with-request-scoping" class="question-hyperlink" title="request = require(&#39;request&#39;)
+
+auth =
+url: &#39;&#39;
+method: &#39;POST&#39;
+json:
+  credentials:
+  username: &quot;&quot;
+  key: &quot;&quot;
+
+exports = exports ? this
+
+request auth, (err, res, body) -&gt;
+  exports.inside = body
+
+..." target="_blank">coffeescript with Request scoping</a>
+            <span title="2 answers">2</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/5195929/103739" title="12 votes">
+        <div class="answer-votes        default
+">12</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/5195929/nodejs-coffeescript-render-coffeescript-compiled-js-on-request" class="question-hyperlink" title="What I would like to do is add the following to me already running coffeescript written server
+
+app.get &#39;/test.js&#39;, (req, res) -&gt;
+    render coffee somecoffeefile.coffee
+
+
+Is something like this ..." target="_blank">NodeJS + CoffeeScript, render coffeescript compiled js on request</a>
+            <span title="7 answers">7</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/6400843/103739" title="6 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">6</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/6400843/coffeescript-with-jquery-ajax" class="question-hyperlink" title="$.ajax &#39;/&#39;,
+    type: &#39;GET&#39;
+    dataType: &#39;html&#39; error: (jqXHR, textStatus, errorThrown) -&gt;
+        $(&#39;body&#39;).append &quot;AJAX Error: #{textStatus}&quot;
+    success: (data, textStatus, jqXHR) -&gt;
+        ..." target="_blank">coffeescript with jquery ajax</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/7256174/103739" title="1 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/7256174/ajax-will-not-work-with-coffeescript" class="question-hyperlink" title="I have the following code which I am try to write with coffeescript.
+
+$.ajax {
+  type: &#39;GET&#39;
+  url: &#39;/dashboard&#39;
+  success: (response) -&gt; 
+    $(&#39;.loading_row&#39;).remove()
+  dataType: &#39;script&#39;
+}
+
+
+..." target="_blank">$.ajax will not work with coffeescript</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/13362648/103739" title="2 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">2</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/13362648/coffeescript-not-handling-ajaxsuccess" class="question-hyperlink" title="As I mentioned in a question last week, I&#39;m working with @coreyward&#39;s excellent walk-through for modal edit windows in Rails 3. However, I&#39;m a relative novice with Coffeescript, and I&#39;m having trouble ..." target="_blank">Coffeescript not handling ajax:success</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/9795849/103739" title="0 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">0</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/9795849/delay-the-loading-of-an-ember-view-template-until-completion-of-ajax-request" class="question-hyperlink" title="It doesn&#39;t look like it is possible to delay the load of a template until a response comes back from an AJAX request inside the willInsertElement property of an Ember View?  
+
+I would like to load ..." target="_blank">Delay the loading of an Ember View template until completion of AJAX request</a>
+            <span title="2 answers">2</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/7307734/103739" title="2 votes">
+        <div class="answer-votes        default
+">2</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/7307734/mvc3-request-delay-needed" class="question-hyperlink" title="I have a MVC3 application. I have to add a delay in one uri request. I know the simplest way to do is an sleep, but the application in production has a big number of request and i&#39;m afraid that let ..." target="_blank">MVC3 request delay needed</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/7957325/103739" title="1 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/7957325/delay-between-request-response" class="question-hyperlink" title="The problem:
+  I have 2 methods:  
+
+proccessRequest();
+proccessResponse();
+
+
+if I run them so then I get an error because the request proccessing take too long and the response part gives an error. ..." target="_blank">Delay between request/response</a>
+            <span title="3 answers">3</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/13603330/103739" title="0 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">0</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/13603330/ajax-update-with-coffeescript-rails3" class="question-hyperlink" title="I&#39;m following a sortable list tutorial in here , but unfortunately the article is bit old (but very useful) and I&#39;m having some issues when try to implement it with 
+
+Rails 3.2.x
+coffeescript 
+Jquery
+
+..." target="_blank">Ajax update with coffeescript + rails3</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/3174978/103739" title="1 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">1</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/3174978/set-delay-with-javascript-ajax" class="question-hyperlink" title="I want to make a delay when the result comes in the note. 
+
+I have a form &gt; input the user types his username in the input and I check with AJAX 
+
+if the username is available or not. If yes a note ..." target="_blank">Set delay with javascript / ajax</a>
+            <span title="1 answers">1</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/3650465/103739" title="2 votes">
+        <div class="answer-votes        default
+">2</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/3650465/django-ajax-httpresponse-delay" class="question-hyperlink" title="I have a django view function that calls another function if a condition is true, the function is called as a separate process, the view returns a status variable which shows if the function was ..." target="_blank">Django - Ajax HttpResponse delay</a>
+            <span title="2 answers">2</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/6384220/103739" title="2 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">2</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/6384220/ajax-delay-simulation" class="question-hyperlink" title="I have a small ajax jquery script which returns some XML for me. Whilst it is working and communicating with the server I am displaying a loader animation.
+
+The problem is I don&#39;t see the animation. ..." target="_blank">Ajax delay simulation</a>
+            <span title="3 answers">3</span>
+    </div>
+</div>
+
+<div class="answer-summary">
+
+
+    <a href="http://stackoverflow.com/q/8522469/103739" title="3 votes, with an accepted answer">
+        <div class="answer-votes answered-accepted        default
+">3</div>
+    </a>
+    <div class="answer-link " style="width:90%">
+        <a href="http://stackoverflow.com/questions/8522469/delay-a-ajax-response-in-javascript" class="question-hyperlink" title="Hi odd question to ask but am trying to simulate a user issue upon our site.
+
+Is it possible to delay a reponse from an ajax request. 
+
+What I am looking to simulate is what happens to our page when ..." target="_blank">delay a ajax response in Javascript</a>
+            <span title="4 answers">4</span>
+    </div>
+</div></div>
+</div>
+        </div>
+
+
+
+        
+
+
+
+<script type="text/javascript">
+    StackExchange.ready(function() {
+        StackExchange.using("tagEditor", function () { StackExchange.tagEditor.ready.done(initFadingHelpText); });
+        initTagRenderer("".split(" "), "".split(" "));
+         
+        prepareEditor({
+            heartbeatType: 'ask',
+            bindNavPrevention: true,
+            postfix: "",
+            onDemand: false,
+            discardSelector: ".discard-question"
+            
+        });
+        
+
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor">  
+
+    
+    <div class="wmd-container">
+        <div id="wmd-button-bar" class="wmd-button-bar"><ul id="wmd-button-row" class="wmd-button-row"><li class="wmd-button" style="left: 0px;" id="wmd-bold-button" title="Strong &lt;strong&gt; Ctrl+B"><span style="background-position: 0px 0px;"></span></li><li class="wmd-button" style="left: 25px;" id="wmd-italic-button" title="Emphasis &lt;em&gt; Ctrl+I"><span style="background-position: -20px 0px;"></span></li><li class="wmd-spacer wmd-spacer1" id="wmd-spacer1"></li><li class="wmd-button" style="left: 75px;" id="wmd-link-button" title="Hyperlink &lt;a&gt; Ctrl+L"><span style="background-position: -40px 0px;"></span></li><li class="wmd-button" style="left: 100px;" id="wmd-quote-button" title="Blockquote &lt;blockquote&gt; Ctrl+Q"><span style="background-position: -60px 0px;"></span></li><li class="wmd-button" style="left: 125px;" id="wmd-code-button" title="Code Sample &lt;pre&gt;&lt;code&gt; Ctrl+K"><span style="background-position: -80px 0px;"></span></li><li class="wmd-button" style="left: 150px;" id="wmd-image-button" title="Image &lt;img&gt; Ctrl+G"><span style="background-position: -100px 0px;"></span></li><li class="wmd-spacer wmd-spacer2" id="wmd-spacer2"></li><li class="wmd-button" style="left: 200px;" id="wmd-olist-button" title="Numbered List &lt;ol&gt; Ctrl+O"><span style="background-position: -120px 0px;"></span></li><li class="wmd-button" style="left: 225px;" id="wmd-ulist-button" title="Bulleted List &lt;ul&gt; Ctrl+U"><span style="background-position: -140px 0px;"></span></li><li class="wmd-button" style="left: 250px;" id="wmd-heading-button" title="Heading &lt;h1&gt;/&lt;h2&gt; Ctrl+H"><span style="background-position: -160px 0px;"></span></li><li class="wmd-button" style="left: 275px;" id="wmd-hr-button" title="Horizontal Rule &lt;hr&gt; Ctrl+R"><span style="background-position: -180px 0px;"></span></li><li class="wmd-spacer wmd-spacer3" id="wmd-spacer3"></li><li class="wmd-button" style="left: 325px;" id="wmd-undo-button" title="Undo - Ctrl+Z"><span style="background-position: -200px 0px;"></span></li><li class="wmd-button" style="left: 350px;" id="wmd-redo-button" title="Redo - Ctrl+Shift+Z"><span style="background-position: -220px -20px;"></span></li><li class="wmd-button wmd-help-button" id="wmd-help-button" style="right: 0px;" title="Markdown Editing Help"><span style="background-position: -240px 0px;"></span></li></ul></div>
+        <textarea id="wmd-input" class="wmd-input processed" name="post-text" cols="92" rows="15" tabindex="101"></textarea>
+    <div class="grippie" style="margin-right: 0px;"></div></div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height: 24px; display: none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height: 24px; display: none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"><p>I'm using CoffeeScript in my rails app, and I need to delay a remote ajax form submission, the main problem I'm having is debouncing the request so that the form will send once 250ms has passed without the user typing in the the form.</p>
+
+<p>Right now I have something that looks like this going on, obviously it won't work so this has some debug output in it to help me out.</p>
+
+<pre><code>remoteTable =
+
+  bindEvents: (element) -&gt;
+    element.keyup (event) -&gt;
+      console.log(event)
+
+
+  send: (event) -&gt;
+    console.log(event)
+</code></pre></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="4cc0abe1a14ee95c086db8bce95f1dc3">
+        <input id="author" name="author" type="text">
+    <input type="hidden" name="i1l" value="6+KsCV4SmT6EAYb8Mdl+uWoZXn/Rp0rO5OuarG6ggdw="></div>
+</div>
+
+        <script type="text/javascript">
+    StackExchange.using("tagEditor", function () {
+        initTagRenderer("".split(" "), "".split(" "));
+        var tagInput = $("#tagnames");
+        StackExchange.tagEditor(tagInput);
+    });
+</script>	
+<div class="form-item">
+    <label>Tags</label>
+    <input id="tagnames" name="tagnames" type="text" size="60" value="" tabindex="103" style="display: none;"><div class="actual-edit-overlay" style="width: 666px; height: 28px; opacity: 1; position: absolute; background-color: white; color: black; -webkit-text-fill-color: black; line-height: 28px; font-family: &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif; font-size: 13px; text-align: start; border: 1px solid rgb(153, 153, 153);" disabled="disabled">&nbsp;at least one tag such as (html iphone ruby-on-rails), max 5 tags</div><div class="tag-editor" style="width: 666px; height: 28px; opacity: 1; z-index: 1; position: relative;"><span style=""><span class="post-tag">coffeescript<span class="delete-tag" title="remove this tag"></span></span></span><input type="text" tabindex="103" style="width: 565px;"><span></span></div>
+
+<span class="edit-field-overlay">at least one tag such as (html iphone ruby-on-rails), max 5 tags</span>
+</div>
+
+        
+        
+        <div id="question-only-section">
+<div>
+    <h2 class="bottom-notice">
+        Would you like to have responses to your questions <a id="inbox-notify-1" href="http://stackoverflow.com/questions/ask#">sent to you via email</a>?
+    </h2>
+</div>
+<script type="text/javascript">
+    StackExchange.ready(function () {
+        $("#inbox-notify-1").click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 200);
+            StackExchange.ready(function () {
+                genuwine.click();
+                $("#seTabEmail").click();
+            });
+            return false;
+        });
+    });
+</script>
+
+            <div class="form-submit cbt">
+                <input id="submit-button" type="submit" value="Post Your Question" tabindex="120">
+                <a href="http://stackoverflow.com/questions/ask#" class="discard-question" style="">discard</a>
+            </div>
+        </div>
+
+            <div id="answer-from-ask-form-item" class="form-item">
+                <input type="checkbox" id="answer-from-ask" name="answer-from-ask"> <label for="answer-from-ask" style="display: inline;">Answer your own question</label> – <a href="http://blog.stackoverflow.com/2011/07/its-ok-to-ask-and-answer-your-own-questions/" target="_blank">share your knowledge, Q&amp;A-style</a>
+            </div>
+            <div id="question-answer-section" class="dno">
+                <div id="inline-answer" style="margin-bottom: 20px;">
+                    
+
+
+
+<script type="text/javascript">
+    StackExchange.ready(function() {
+        StackExchange.using("tagEditor", function () { StackExchange.tagEditor.ready.done(initFadingHelpText); });
+        initTagRenderer("".split(" "), "".split(" "));
+         
+        prepareEditor({
+            heartbeatType: '',
+            bindNavPrevention: true,
+            postfix: "-42",
+            onDemand: false,
+            discardSelector: ".discard-question"
+            
+        });
+        
+
+    });  
+</script>
+
+
+<div id="post-editor-42" class="post-editor">  
+
+    
+    <div class="wmd-container">
+        <div id="wmd-button-bar-42" class="wmd-button-bar"></div>
+        <textarea id="wmd-input-42" class="wmd-input" name="post-text-answer" cols="92" rows="15" tabindex="103"></textarea>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved-42" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded-42" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+    <div class="community-option">
+        <input id="communitymode-42" name="communitymode" type="checkbox">
+        <label for="communitymode-42" title="Marking an answer community wiki encourages others to edit it by lowering the reputation barrier required to edit. However, you will not gain any upvote reputation from it. This cannot be undone.">community wiki</label>
+    </div>
+
+
+    <div id="wmd-preview-42" class="wmd-preview"></div>
+    <div></div>
+</div>
+                </div>
+
+<div>
+    <h2 class="bottom-notice">
+        Would you like to have responses to your questions <a id="inbox-notify-2" href="http://stackoverflow.com/questions/ask#">sent to you via email</a>?
+    </h2>
+</div>
+<script type="text/javascript">
+    StackExchange.ready(function () {
+        $("#inbox-notify-2").click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 200);
+            StackExchange.ready(function () {
+                genuwine.click();
+                $("#seTabEmail").click();
+            });
+            return false;
+        });
+    });
+</script>
+
+                <div class="form-submit cbt">
+                    <input id="submit-button-42" type="submit" value="Post Your Question And Answer" tabindex="120">
+                    <a href="http://stackoverflow.com/questions/ask#" class="discard-question" style="">discard</a>
+                </div>
+            </div>
+    </form>
+</div>
+<div id="sidebar" class="ask-sidebar">
+    <div id="scroller-anchor"></div>
+    <div id="scroller" style="position: fixed; width: 270px; top: 0px;">
+        <div class="module newuser sidebar-help" id="how-to-title" style="display: none;">
+            <h4>How to Ask</h4>
+            <p><b>Is your question about programming?</b></p><p>We prefer questions that can be <i>answered</i>, not just discussed.</p><p>Provide details. Share your research.</p><p>If your question is about this website, <b><a href="http://meta.stackoverflow.com/">ask it on meta</a></b> instead.</p><p class="ar"><a href="http://stackoverflow.com/faq">read the faq »</a><br><a href="http://stackoverflow.com/questions/how-to-ask">asking help »</a></p>
+        </div>
+        <div class="module newuser sidebar-help" id="how-to-format" style="display: block;"><h4>Similar Questions</h4><ul><li><a href="http://stackoverflow.com/questions/6400843/coffeescript-with-jquery-ajax" title="$.ajax &#39;/&#39;,
+    type: &#39;GET&#39;
+    dataType: &#39;html&#39; error: (jqXHR, textStatus, errorThrown) -&gt;
+        $(&#39;body&#39;).append &quot;AJAX Error: #{textStatus}&quot;
+    success: (data, textStatus, jqXHR) -&gt;
+        ...">coffeescript with jquery ajax</a></li><li><a href="http://stackoverflow.com/questions/9162868/return-results-of-ajax-request-in-coffeescript" title="Still getting my head around CoffeeScript and and seeing what its capable of.
+
+I&#39;ve written a method that makes a ajax call and I&#39;m wanting to return the results.
+
+For example:
+
+GetViewedItem: (foo) ...">Return Results of Ajax Request in Coffeescript</a></li><li><a href="http://stackoverflow.com/questions/10593368/whats-wrong-with-this-coffeescript" title="I&#39;m iterating over some api data and mapping the API&#39;s data to Coffeescript objects.  What&#39;s puzzling me is why just part of that data disappears between these two console.log statements:
+
+items = ...">What's wrong with this Coffeescript?</a></li><li><a href="http://stackoverflow.com/questions/5850544/javadoc-on-coffeescript" title="I&#39;m new to CoffeeScript and seems that I can&#39;t find any document generator for CoffeeScript using Javadoc syntax. The only one I could find is available as a patch to the CoffeeScript compiler.
+
+So, ...">Javadoc on CoffeeScript?</a></li><li><a href="http://stackoverflow.com/questions/8528980/coffeescript-form" title="I&#39;m trying to use the following code to grab the variables from the two inputs and add them together using Coffeescript like so:
+
+here&#39;s the HTML...
+
+&lt;form action=&quot;&quot; method=&quot;GET&quot;&gt;
+    &lt;input ...">Coffeescript Form</a></li><li><a href="http://stackoverflow.com/questions/8976866/coffeescript-functions" title="I was reading this smooth CoffeeScript book and it had a code 
+
+confirm &#39;Shall we, then?&#39;, (answer) -&gt; show answer
+
+
+This is supposed to get the answer from the confirm and show it / I changed the ...">CoffeeScript functions</a></li><li><a href="http://stackoverflow.com/questions/6551905/coffeescript-encapsulation-and-variable-access" title="Trying to understand how CoffeeScript instance and class variable works I came with this code (and the results are in the comments).
+
+class A
+  x: 1
+  @y: 2
+
+  constructor: (@z) -&gt; 
+    ...">CoffeeScript Encapsulation and Variable Access</a></li><li><a href="http://stackoverflow.com/questions/6689519/static-methods-inheritance-in-coffeescript" title="I&#39;ve been reading up a bit about coffeescript&#39;s inheritance model and I have the feeling I&#39;m on the fringes of an ideological debate which I really don&#39;t understand. So, I would be perfectly happy to ...">Static methods &amp; inheritance in Coffeescript</a></li><li><a href="http://stackoverflow.com/questions/8090998/namespacing-in-coffeescript" title="Is there any intrinsic support for namespacing in coffeescript?
+
+Adequate namespacing seems like something coffeescript could really help with although I don&#39;t seem to be able to find anything to ...">Namespacing in coffeescript</a></li><li><a href="http://stackoverflow.com/questions/13607777/coffeescript-refactoring" title="Is there any coffeescript specific trickery that would make this look neater:
+
+index = (-&gt;
+          if segment == &#39;index&#39;
+            return 0
+          else if segment == &#39;inbox&#39;
+            ...">coffeescript refactoring</a></li><li><a href="http://stackoverflow.com/questions/9783209/simple-coffeescript-web-page" title="I have seen coffescript tutorials that show how to use coffeescript with rails, nodejs, or even coffeescript REPL for learning it.
+
+How can I create a web project where I can just write a cofeescript ...">simple coffeescript web page</a></li><li><a href="http://stackoverflow.com/questions/13979007/coffeescript-for-loop" title="I am trying to convert some apple chart examples from javascript to coffeescript.  Having a tough time trying to figure out how to write this for loop in coffee script.  Thanks for any help in advance
+...">Coffeescript for loop</a></li><li><a href="http://stackoverflow.com/questions/9140946/what-are-the-non-expressions-in-coffeescript" title="I am watching this great video by Jeremy on CoffeeScript. He explains that one of the ideals of CoffeeScript is to have &quot;everything be an expression&quot;.
+
+How close to this ideal has CoffeeScript got? ...">What are the non-expressions in CoffeeScript?</a></li></ul></div>
+        <div class="module newuser sidebar-help" id="how-to-tag" style="display: none;">
+    <h4>How to Tag</h4>
+    <p>A tag is a keyword or label that categorizes your question with other, similar questions.</p>
+    <p><span class="dingus">►</span> favor existing popular tags; avoid creating new tags</p>
+    <p><span class="dingus">►</span> use common abbreviations</p>
+    <p><span class="dingus">►</span> don't include synonyms</p>
+    <p><span class="dingus">►</span> combine multiple words into single-words with dashes</p>
+    <p><span class="dingus">►</span> maximum of 5 tags, 25 chars per tag</p>
+    <p><span class="dingus">►</span> tag characters: [a-z 0-9 + # - .]</p>
+    <p><span class="dingus">►</span> delimit tags by space, semicolon, or comma</p>
+    <p class="ar"><a href="http://stackoverflow.com/tags">popular tags »</a></p>
+</div>    
+    </div>
+    <script type="text/javascript">
+        StackExchange.ready(function () { moveScroller(); });
+        StackExchange.using("editor", function () {
+                        
+            var lengthCheckInterval = setInterval(function () {
+                if ($("#wmd-input").val().length >= 220) {
+                    clearInterval(lengthCheckInterval);
+                    StackExchange.cardiologist.beatASAP();
+                }
+            }, 3000);
+        });
+        
+
+    </script>
+        
+</div>
+
+<br class="cbt">
+<div style="display:none" id="prettify-lang"></div>
+
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <a href="http://stackoverflow.com/about">about</a> |
+                <a href="http://stackoverflow.com/faq">faq</a> |
+                <a href="http://blog.stackexchange.com/?blb=1">blog</a> |
+                    <a href="http://chat.stackoverflow.com/">chat</a> |
+                <a href="http://data.stackexchange.com/">data</a> |
+                <a href="http://stackexchange.com/legal">legal</a> |
+                <a href="http://stackexchange.com/legal/privacy-policy">privacy policy</a> |
+                <a href="http://stackexchange.com/about/hiring">jobs</a> |
+                <a href="http://engine.adzerk.net/redirect/0/2776/2751/0/4de3c60f719c4dfcb1a57531c7050090/0">advertising info</a> |
+
+                <a onclick="StackExchange.switchMobile(&#39;on&#39;, &#39;/questions/ask&#39;)">mobile</a> |
+
+                <b><a href="http://stackoverflow.com/help">contact us</a></b>
+                  | <b><a href="http://meta.stackoverflow.com/">feedback</a></b>
+                <div id="footer-sites">
+                    
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackoverflow.com/">stackoverflow.com</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://stackapps.com/">api/apps</a>&nbsp; 
+                        <span style="color:#FE7A15;font-size:140%">■</span>&nbsp;<a href="http://careers.stackoverflow.com/">careers 2.0</a>&nbsp; 
+                        <span style="color:#E8272C;font-size:140%">■</span>&nbsp;<a href="http://serverfault.com/">serverfault.com</a>&nbsp; 
+                        <span style="color:#00AFEF;font-size:140%">■</span>&nbsp;<a href="http://superuser.com/">superuser.com</a>&nbsp; 
+                        <span style="color:#969696;font-size:140%">■</span>&nbsp;<a href="http://meta.stackoverflow.com/">meta</a>&nbsp; 
+                        <span style="color:#46937D;font-size:140%">■</span>&nbsp;<a href="http://area51.stackexchange.com/">area&nbsp;51</a>&nbsp; 
+                        <span style="color:#C0D0DC;font-size:140%">■</span>&nbsp;<a href="http://webapps.stackexchange.com/">webapps</a>&nbsp; 
+                        <span style="color:#000000;font-size:140%">■</span>&nbsp;<a href="http://gaming.stackexchange.com/">gaming</a>&nbsp; 
+                        <span style="color:#dd4814;font-size:140%">■</span>&nbsp;<a href="http://askubuntu.com/">ubuntu</a>&nbsp; 
+                        <span style="color:#9ce4fe;font-size:140%">■</span>&nbsp;<a href="http://webmasters.stackexchange.com/">webmasters</a>&nbsp; 
+                        <span style="color:#cf4d3f;font-size:140%">■</span>&nbsp;<a href="http://cooking.stackexchange.com/">cooking</a>&nbsp; 
+                        <span style="color:#f4f28d;font-size:140%">■</span>&nbsp;<a href="http://gamedev.stackexchange.com/">game development</a>&nbsp; 
+                        <span style="color:#0f3559;font-size:140%">■</span>&nbsp;<a href="http://math.stackexchange.com/">math</a>&nbsp; 
+                        <span style="color:#f2f2f2;font-size:140%">■</span>&nbsp;<a href="http://photo.stackexchange.com/">photography</a>&nbsp; 
+                        <span style="color:#037187;font-size:140%">■</span>&nbsp;<a href="http://stats.stackexchange.com/">stats</a>&nbsp; 
+                        <span style="color:#f1e7cc;font-size:140%">■</span>&nbsp;<a href="http://tex.stackexchange.com/">tex</a>&nbsp; 
+                        <span style="color:#e1cdae;font-size:140%">■</span>&nbsp;<a href="http://english.stackexchange.com/">english</a>&nbsp; 
+                        <span style="color:#a2d9f6;font-size:140%">■</span>&nbsp;<a href="http://cstheory.stackexchange.com/">theoretical cs</a>&nbsp; 
+                        <span style="color:#1b3e6c;font-size:140%">■</span>&nbsp;<a href="http://programmers.stackexchange.com/">programmers</a>&nbsp; 
+                        <span style="color:#293a5d;font-size:140%">■</span>&nbsp;<a href="http://unix.stackexchange.com/">unix</a>&nbsp;
+                        <span style="color:#bec0cb;font-size:140%">■</span>&nbsp;<a href="http://apple.stackexchange.com/">apple</a>&nbsp;
+                        <span style="color:#939185;font-size:140%">■</span>&nbsp;<a href="http://wordpress.stackexchange.com/">wordpress</a>&nbsp;
+                        <span style="color:#ebf5f5;font-size:140%">■</span>&nbsp;<a href="http://physics.stackexchange.com/">physics</a>&nbsp;
+                        <span style="color:#4176ab;font-size:140%">■</span>&nbsp;<a href="http://diy.stackexchange.com/">home&nbsp;improvement</a>&nbsp;
+                        <span style="color:#d1d8d7;font-size:140%">■</span>&nbsp;<a href="http://gis.stackexchange.com/">gis</a>&nbsp;
+                        <span style="color:#e5e2d3;font-size:140%">■</span>&nbsp;<a href="http://electronics.stackexchange.com/">electrical&nbsp;engineering</a>&nbsp;
+                        <span style="color:#a4c639;font-size:140%">■</span>&nbsp;<a href="http://android.stackexchange.com/">android</a>&nbsp;
+                        <span style="color:#2e4e60;font-size:140%">■</span>&nbsp;<a href="http://security.stackexchange.com/">security</a>&nbsp;
+                        <span style="color:#45bcb5;font-size:140%">■</span>&nbsp;<a href="http://bicycles.stackexchange.com/">bicycles</a>&nbsp;
+                        <span style="color:#00adee;font-size:140%">■</span>&nbsp;<a href="http://dba.stackexchange.com/">dba</a>&nbsp;
+                        <span style="color:#2edaf0;font-size:140%">■</span>&nbsp;<a href="http://drupal.stackexchange.com/">drupal</a>&nbsp;
+                        <span style="color:#213951;font-size:140%">■</span>&nbsp;<a href="http://sharepoint.stackexchange.com/">sharepoint</a>&nbsp;
+                        <span style="color:#73abb3;font-size:140%">■</span>&nbsp;<a href="http://scifi.stackexchange.com/">scifi &amp; fantasy</a>&nbsp;
+                        <span style="color:#23629F;font-size:140%">■</span>&nbsp;<a href="http://ux.stackexchange.com/">user experience</a>&nbsp;
+                        <span style="color:#faff72;font-size:140%">■</span>&nbsp;<a href="http://skeptics.stackexchange.com/">skeptics</a>&nbsp;
+                        <span style="color:#623121;font-size:140%">■</span>&nbsp;<a href="http://rpg.stackexchange.com/">rpg</a>&nbsp;
+                        <span style="color:#e4be88;font-size:140%">■</span>&nbsp;<a href="http://judaism.stackexchange.com/">judaism</a>&nbsp;
+                        <span style="color:#ffecb1;font-size:140%">■</span>&nbsp;<a href="http://mathematica.stackexchange.com/">mathematica</a>&nbsp;
+                </div>
+            </div>
+            <div id="footer-flair">
+                <a class="peer1" href="http://www.peer1.com/stackoverflow"></a>  
+	            <a href="http://creativecommons.org/licenses/by-sa/3.0/" class="cc-wiki-link"></a>
+                <div id="svnrev">rev 2012.12.21.673</div>
+                        </div>
+            <div id="copyright">
+                site design / logo © 2012 stack exchange inc; 
+                user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc-wiki</a> with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+            
+
+        </div>
+    </div>
+    
+    <noscript>
+        &lt;div id="noscript-warning"&gt;Stack Overflow works best with JavaScript enabled&lt;img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"&gt;&lt;/div&gt;
+    </noscript>
+    <script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-5620270-1']);
+        _gaq.push(['_setCustomVar', 2, 'accountid', '36377',2]); 
+_gaq.push(['_trackPageview']);
+    var _qevents = _qevents || [];
+    (function(){
+        var s=document.getElementsByTagName('script')[0];
+        var ga=document.createElement('script');
+        ga.type='text/javascript';
+        ga.async=true;
+        ga.src='http://www.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(ga,s);
+        var sc=document.createElement('script');
+        sc.type='text/javascript';
+        sc.async=true;
+        sc.src='http://edge.quantserve.com/quant.js'; 
+        s.parentNode.insertBefore(sc,s);
+    })();
+    </script>
+    <script type="text/javascript">
+        _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+    </script>    
+    
+
+</body></html>

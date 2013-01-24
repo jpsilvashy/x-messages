@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   # After filter to insert the headers in the response
   after_filter :x_messages
+  after_filter { flash.discard if request.xhr? }
 
   # Also make available as a helper so we can render
   # the errors of the user doesn't have js
@@ -12,10 +13,10 @@ class ApplicationController < ActionController::Base
 
   # If there is a flash present, insert into header
   def x_messages
-    if flash.present?
+    # if flash.present?
       response.headers['X-Messages'] = flash.to_hash.to_json
       flash.to_hash
-    end
+    # end
   end
 
 end

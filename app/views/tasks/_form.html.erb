@@ -1,11 +1,6 @@
-<%= simple_form_for(@task) do |f| %>
+<%= simple_form_for(Task.new, remote: remote) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :body %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, :class => 'btn' %>
-  </div>
+  <%= f.input :body, label: false, placeholder: 'Create a task' %>
+  <span class='save-help'>Press enter to save</span>
 <% end %>

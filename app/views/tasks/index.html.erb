@@ -1,13 +1,7 @@
-<h2>Listing tasks</h2>
+<h2>My Tasks</h2>
 
-<% @tasks.each do |task| %>
-<li>
-  <%= task.body %>
-  <%= link_to 'Edit', edit_task_path(task) %>
-  <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?', remote: true } %>
-</li>
-<% end %>
+<ul id='tasks'>
+  <%= render @tasks %>
+</ul>
 
-<br />
-
-<%= link_to 'New Task', new_task_path, :class => 'btn' %>
+<%= render partial: 'form', locals: { remote: true } %>

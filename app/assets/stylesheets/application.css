@@ -88,3 +88,12 @@ header nav ul li {
 #user-nav {
   float: right;
 }
+
+.save-help {
+  font-size: 12px;
+  color:#ccc;
+}
+
+.input, #task_body {
+  margin: 0;
+}
